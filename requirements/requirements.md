@@ -15,6 +15,8 @@ Con el crecimiento del comercio digital y la alta demanda de dispositivos electr
 > La decisión tomada para resolver estos problemas es _La implementación de una base de datos en PostgreSQL_ que permita gestionar de manera eficiente su inventario, las ventas, los clientes y los proveedores.
 
 ## Entidades identificadas
+- categorias: ALmacena categorias
+    _campos_: categoria_id, nombre
 - productos: Almacenará los datos de los productos
     _Campos:_ producto_id, nombre, categoria_id, precio, stock, proveedor_id
 - clientes: Almacenará y llevará un control sobre los clientes
