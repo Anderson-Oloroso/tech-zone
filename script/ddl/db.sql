@@ -42,7 +42,6 @@ CREATE TABLE ventas(
 CREATE TABLE detalle_venta(
     detalle_venta_id SERIAL PRIMARY KEY,
     producto_id INT NOT NULL REFERENCES productos(producto_id) ON DELETE CASCADE,
-    cliente_id INT NOT NULL REFERENCES clientes(cliente_id) ON DELETE CASCADE,
     cantidad INT CHECK(cantidad > 0),
     subtotal NUMERIC(8,2)
 );
