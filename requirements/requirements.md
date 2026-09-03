@@ -15,19 +15,19 @@ Con el crecimiento del comercio digital y la alta demanda de dispositivos electr
 > La decisión tomada para resolver estos problemas es _La implementación de una base de datos en PostgreSQL_ que permita gestionar de manera eficiente su inventario, las ventas, los clientes y los proveedores.
 
 ## Entidades identificadas
-- categorias: ALmacena categorias
+- **categorias:** Almacena categorias
     _campos_: categoria_id, nombre
-- productos: Almacenará los datos de los productos
+- **productos:** Almacenará los datos de los productos
     _Campos:_ producto_id, nombre, categoria_id, precio, stock, proveedor_id
-- clientes: Almacenará y llevará un control sobre los clientes
+- **clientes:** Almacenará y llevará un control sobre los clientes
     _Campos:_ cliente_id, nombre, apellido, email, telefono
-- ventas:  Control sobre las ventas
-    _Campos:_ venta_id, detalle_venta_id, cliente_id
-- proveedores: El negocio guardará sus proveedores en base a los productos
+- **ventas:** Control sobre las ventas
+    _Campos:_ venta_id, detalle_venta_id, cliente_id, fecha_venta
+- **proveedores:** El negocio guardará sus proveedores en base a los productos
     _Campos:_ proveedor_id, nombre, apellido, producto_id, email, telefono.
 
     ### Tabla auxiliar
-    - detalle_venta: Para evitar reduncancias en las ventas de los productos y sus cantidades.
+    - **detalle_venta:** Para evitar reduncancias en las ventas de los productos y sus cantidades.
         _Campos:_ detalle_venta_id, producto_id, cliente_id, cantidad 
 
 ## Relaciones y cardinalidades
@@ -35,14 +35,18 @@ Con el crecimiento del comercio digital y la alta demanda de dispositivos electr
 
 - **ventas-detalle_ventas: (1:N)** Una venta puede tener múltiples detalles de los productos a vender, y esos detalles corresponden a una sola venta.
 
-- **productos-detalle_ventas (1:N)** Un producto puede tener varios detalles de ventas, pero los mismos no corresponderán al mismo pedido a uno solo.
+- **productos-detalle_ventas: (1:N)** Un producto puede tener varios detalles de ventas, pero los mismos no corresponderán al mismo pedido a uno solo.
 
-- **productos-proveedores (1:N)** Actualmente la emprese cuenta con un proveedor por producto, pero a medida que esta se expande la necesidad se vuelve más grande. Por ende puede sernecesario que uno o más proveedores abastezcan los productos.
+- **productos-proveedores: (1:N)** Actualmente la emprese cuenta con un proveedor por producto, pero a medida que esta se expande la necesidad se vuelve más grande. Por ende puede sernecesario que uno o más proveedores abastezcan los productos.
 
+- **categoria-productos: (1:N)** Una categoria puede tener varios productos, pero un producto solo pertenece a una sola rama.
+---
 
 ## Hechos de la base de datos
+- Tienda tecnológica
 - Moneda guatemalteca (Q)
 - Un producto puede ser abastecido por varios proveedores
 - Base de datos PostgreSQL
 - Base con fines de expansión de la empresa
 - Los precios y demás es manejarán a 2 decimales.
+- Los proveedores son personas o encargados de los productos, no empresas como tal.

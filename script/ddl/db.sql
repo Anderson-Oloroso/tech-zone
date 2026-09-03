@@ -2,26 +2,27 @@ CREATE DATABASE techzone;
 
 \c techzone
 
+
 CREATE TABLE categorias(
     categoria_id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50)
-);
-
-CREATE TABLE productos(
-    producto_id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50),
-    categoria_id INT REFERENCES categorias(categoria_id) ON DELETE,
-    precio NUMERIC(8,2) NOT NULL CHECK(precio > 0),
-    stock INT CHECK(stock > 0)
+    nombre VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE proveedores(
     proveedor_id SERIAL PRIMARY KEY,
     nombre VARCHAR(30) NOT NULL,
-    apellido VARCHAR(30),
-    producto_id INT REFERENCES productos(producto_id) ON DELETE CASCADE,
+    apellido VARCHAR(30) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
     telefono VARCHAR(8)
+);
+
+CREATE TABLE productos(
+    producto_id SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    categoria_id INT NOT NULL REFERENCES categorias(categoria_id),
+    proveedor_id INT NOT NULL REFERENCES proveedores(proveedor_id),
+    precio NUMERIC(8,2) NOT NULL CHECK(precio > 0),
+    stock INT NOT NULL CHECK(stock >= 0)
 );
 
 CREATE TABLE clientes(
@@ -34,14 +35,14 @@ CREATE TABLE clientes(
 
 CREATE TABLE ventas(
     venta_id SERIAL PRIMARY KEY,
-    cliente_id INT NOT NULL REFERENCES clientes(cliente_id) ON DELETE CASCADE,
-    detalle_venta_id INT NOT NULL REFERENCES detalle_venta(detalle_venta_id) ON DELETE CASCADE,
-    precio_final NUMERIC(8,2) NOT NULL
+    cliente_id INT NOT NULL REFERENCES clientes(cliente_id),
+    fecha_venta TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE detalle_venta(
     detalle_venta_id SERIAL PRIMARY KEY,
-    producto_id INT NOT NULL REFERENCES productos(producto_id) ON DELETE CASCADE,
-    cantidad INT CHECK(cantidad > 0),
-    subtotal NUMERIC(8,2)
+    venta_id INT NOT NULL REFERENCES ventas(venta_id),
+    producto_id INT NOT NULL REFERENCES productos(producto_id),
+    cantidad INT NOT NULL CHECK(cantidad > 0),
+    precio_unitario NUMERIC(8,2) NOT NULL CHECK(precio_unitario > 0)
 );
